@@ -93,8 +93,8 @@ gui.ResetOnSpawn = false
 gui.Parent = LocalPlayer:WaitForChild("PlayerGui")
 
 local button = Instance.new("TextButton")
-button.Size = UDim2.fromOffset(200, 50)
-button.Position = UDim2.fromScale(0.5, 0.85)
+button.Size = UDim2.fromOffset(100, 25)
+button.Position = UDim2.fromScale(0.5, 0.2)
 button.AnchorPoint = Vector2.new(0.5, 0.5)
 button.Text = "Chest TP: OFF"
 button.BackgroundColor3 = Color3.fromRGB(40,40,40)
