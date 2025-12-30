@@ -111,7 +111,7 @@ frame.Parent = gui
 local button = Instance.new("TextButton")
 button.Size = UDim2.fromOffset(180, 40)
 button.Position = UDim2.fromOffset(10, 45)
-button.Text = "Chest TP: OFF"
+button.Text = "Dynamic Chest: OFF"
 button.BackgroundColor3 = Color3.fromRGB(40,40,40)
 button.TextColor3 = Color3.new(1,1,1)
 button.TextScaled = true
@@ -132,7 +132,7 @@ button.MouseButton1Click:Connect(function()
     if not ScriptAlive then return end
 
     Enabled = not Enabled
-    button.Text = Enabled and "Chest TP: ON" or "Chest TP: OFF"
+    button.Text = Enabled and "Dynamic Chest: ON" or "Dynamic Chest: OFF"
 
     if Enabled then
         RunningThread = task.spawn(main)
