@@ -8,6 +8,7 @@ local LocalPlayer = Players.LocalPlayer
 --// STATE
 local Enabled = false
 local RunningThread
+local ScriptAlive = true
 
 --// CHARACTER
 local function getCharacter()
@@ -60,15 +61,15 @@ local function toggleNoclip(state)
     end
 end
 
---// TELEPORT (respects toggle)
+--// TELEPORT
 local function Teleport(goal, speed)
-    if not Enabled then return end
+    if not Enabled or not ScriptAlive then return end
     speed = speed or MaxSpeed
 
     toggleNoclip(true)
     local root = getCharacter():WaitForChild("HumanoidRootPart")
 
-    while Enabled and (root.Position - goal.Position).Magnitude > 1 do
+    while Enabled and ScriptAlive and (root.Position - goal.Position).Magnitude > 1 do
         local dir = (goal.Position - root.Position).Unit
         root.CFrame = root.CFrame + dir * (speed * task.wait())
     end
@@ -78,7 +79,7 @@ end
 
 --// MAIN LOOP
 local function main()
-    while Enabled do
+    while Enabled and ScriptAlive do
         local chests = getChestsSorted()
         if #chests > 0 then
             Teleport(chests[1].CFrame)
@@ -87,27 +88,59 @@ local function main()
     end
 end
 
+--// STOP EVERYTHING
+local function StopScript()
+    Enabled = false
+    ScriptAlive = false
+    toggleNoclip(false)
+end
+
 --// GUI
 local gui = Instance.new("ScreenGui")
 gui.ResetOnSpawn = false
 gui.Parent = LocalPlayer:WaitForChild("PlayerGui")
 
+local frame = Instance.new("Frame")
+frame.Size = UDim2.fromOffset(200, 100)
+frame.Position = UDim2.fromScale(0.7, 0.1)
+frame.AnchorPoint = Vector2.new(0.5, 0.5)
+frame.BackgroundColor3 = Color3.fromRGB(30,30,30)
+frame.Parent = gui
+
+-- Toggle Button
 local button = Instance.new("TextButton")
-button.Size = UDim2.fromOffset(150, 50)
-button.Position = UDim2.fromScale(0.7, 0.1)
-button.AnchorPoint = Vector2.new(0.5, 0.5)
+button.Size = UDim2.fromOffset(180, 40)
+button.Position = UDim2.fromOffset(10, 45)
 button.Text = "Chest TP: OFF"
 button.BackgroundColor3 = Color3.fromRGB(40,40,40)
 button.TextColor3 = Color3.new(1,1,1)
 button.TextScaled = true
-button.Parent = gui
+button.Parent = frame
+
+-- Close Button
+local close = Instance.new("TextButton")
+close.Size = UDim2.fromOffset(30, 30)
+close.Position = UDim2.fromOffset(160, 5)
+close.Text = "X"
+close.BackgroundColor3 = Color3.fromRGB(120, 40, 40)
+close.TextColor3 = Color3.new(1,1,1)
+close.TextScaled = true
+close.Parent = frame
 
 --// TOGGLE
 button.MouseButton1Click:Connect(function()
+    if not ScriptAlive then return end
+
     Enabled = not Enabled
     button.Text = Enabled and "Chest TP: ON" or "Chest TP: OFF"
 
     if Enabled then
         RunningThread = task.spawn(main)
     end
+end)
+
+--// CLOSE
+close.MouseButton1Click:Connect(function()
+    StopScript()
+    gui:Destroy()
 end)
