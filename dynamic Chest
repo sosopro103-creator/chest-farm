@@ -101,7 +101,7 @@ gui.ResetOnSpawn = false
 gui.Parent = LocalPlayer:WaitForChild("PlayerGui")
 
 local frame = Instance.new("Frame")
-frame.Size = UDim2.fromOffset(200, 100)
+frame.Size = UDim2.fromOffset(250, 60)
 frame.Position = UDim2.fromScale(0.7, 0.1)
 frame.AnchorPoint = Vector2.new(0.5, 0.5)
 frame.BackgroundColor3 = Color3.fromRGB(30,30,30)
@@ -110,7 +110,7 @@ frame.Parent = gui
 -- Toggle Button
 local button = Instance.new("TextButton")
 button.Size = UDim2.fromOffset(180, 40)
-button.Position = UDim2.fromOffset(10, 45)
+button.Position = UDim2.fromOffset(10, 11)
 button.Text = "Dynamic Chest: OFF"
 button.BackgroundColor3 = Color3.fromRGB(40,40,40)
 button.TextColor3 = Color3.new(1,1,1)
@@ -120,7 +120,7 @@ button.Parent = frame
 -- Close Button
 local close = Instance.new("TextButton")
 close.Size = UDim2.fromOffset(30, 30)
-close.Position = UDim2.fromOffset(160, 5)
+close.Position = UDim2.fromOffset(210, 15)
 close.Text = "X"
 close.BackgroundColor3 = Color3.fromRGB(120, 40, 40)
 close.TextColor3 = Color3.new(1,1,1)
