@@ -1,5 +1,5 @@
 --// SETTINGS
-local MaxSpeed = 250
+local MaxSpeed = 300
 
 --// SERVICES
 local Players = game:GetService("Players")
